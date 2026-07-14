@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Envío Rápido — Simulador Empresarial con IA</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">🚚</span>
+      <div><h1>Envío Rápido</h1><span class="sub">Simulador de decisiones empresariales · con análisis de IA</span></div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===================== PANTALLA INICIO ===================== -->
+    <section id="screen-start" class="screen card-lg">
+      <h2>Dirigí tu empresa de envíos por 15 años</h2>
+      <p class="lead">Cada año tomás una decisión bajo presión: expandir, endeudarte, invertir o consolidar.
+        Después de cada jugada, una IA analiza tu decisión en contexto. Al final, competí en el ranking.</p>
+      <div class="start-form">
+        <input id="player-name" maxlength="24" placeholder="Tu nombre / el de tu empresa" autocomplete="off">
+        <button id="start-btn" class="btn-primary">Empezar ▶</button>
+      </div>
+      <ul class="rules">
+        <li><strong>+</strong> Hacé crecer tu patrimonio sin sobre-endeudarte.</li>
+        <li><strong>⚡</strong> Cada 3 años irrumpe un evento que te obliga a decidir rápido.</li>
+        <li><strong>🏆</strong> Score = patrimonio ajustado por el riesgo que asumiste.</li>
+      </ul>
+    </section>
+
+    <!-- ===================== PANTALLA JUEGO ===================== -->
+    <section id="screen-play" class="screen hidden">
+      <!-- HUD -->
+      <div class="hud">
+        <div class="tile"><span class="tile-k">Año</span><span class="tile-v" id="hud-year">1 / 15</span></div>
+        <div class="tile" id="tile-cash"><span class="tile-k">Caja</span><span class="tile-v" id="hud-cash">$0</span></div>
+        <div class="tile"><span class="tile-k">Deuda</span><span class="tile-v" id="hud-debt">$0</span></div>
+        <div class="tile"><span class="tile-k">Flota</span><span class="tile-v" id="hud-fleet">0 🚚</span></div>
+        <div class="tile"><span class="tile-k">Demanda</span><span class="tile-v" id="hud-demand">0</span></div>
+        <div class="tile hero" id="tile-networth"><span class="tile-k">Patrimonio neto</span><span class="tile-v" id="hud-networth">$0</span></div>
+      </div>
+      <div class="meters">
+        <div class="meter">
+          <div class="meter-top"><span>Reputación</span><span id="hud-rep-val">50/100</span></div>
+          <div class="meter-track"><div class="meter-fill rep" id="hud-rep-fill" style="width:50%"></div></div>
+        </div>
+        <div class="meter">
+          <div class="meter-top"><span>Apalancamiento</span><span id="hud-lev-val">0%</span></div>
+          <div class="meter-track"><div class="meter-fill lev-low" id="hud-lev-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- Situación (decisión / evento) -->
+      <div id="situation" class="card situation"></div>
+
+      <!-- Resultado del año + análisis de IA -->
+      <div id="result-panel" class="card result hidden"></div>
+    </section>
+
+    <!-- ===================== PANTALLA FINAL ===================== -->
+    <section id="screen-end" class="screen card-lg hidden">
+      <div class="end-hero">
+        <span class="end-k">Score final</span>
+        <span class="end-score" id="end-score">0</span>
+      </div>
+      <div id="end-summary" class="end-summary"></div>
+      <p id="end-save-status" class="save-status"></p>
+
+      <h3 class="lb-title">🏆 Ranking</h3>
+      <table class="leaderboard">
+        <thead><tr><th></th><th>Jugador</th><th class="num">Score</th><th class="num">Patrimonio</th><th>Años</th></tr></thead>
+        <tbody id="leaderboard-body"><tr><td colspan="5" class="none">—</td></tr></tbody>
+      </table>
+
+      <button id="replay-btn" class="btn-primary">Jugar de nuevo ↺</button>
+    </section>
+
+  </main>
+
+  <footer class="foot">Lógica del juego 100% determinística en código · la IA solo interpreta, no calcula.</footer>
+
+  <!-- Supabase (leaderboard + proxy seguro del LLM) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="game-engine.js"></script>
+  <script src="ai-feedback.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
